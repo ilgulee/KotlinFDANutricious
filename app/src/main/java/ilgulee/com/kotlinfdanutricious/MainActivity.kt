@@ -3,7 +3,11 @@ package ilgulee.com.kotlinfdanutricious
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import ilgulee.com.kotlinfdanutricious.data.network.NETWORK
+import ilgulee.com.kotlinfdanutricious.data.network.usdaApi
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,5 +30,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        GlobalScope.launch(NETWORK) {
+            usdaApi.getFoods("raw").execute() // Logs results to Logcat due to interceptor
+        }
+
     }
 }
